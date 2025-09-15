@@ -1,3 +1,4 @@
+import logging
 from typing import List
 from langchain_core.tools import BaseTool
 from langchain_mcp_adapters.client import MultiServerMCPClient
@@ -5,6 +6,8 @@ from langchain_mcp_adapters.sessions import StreamableHttpConnection
 
 from src.config.settings import settings
 from src.ai.tools.base import ToolProvider
+
+logger = logging.getLogger(__name__)
 
 
 class MCPToolProvider(ToolProvider):
@@ -33,5 +36,5 @@ class MCPToolProvider(ToolProvider):
             )
             return tools
         except Exception as e:
-            print(f"Warning: Failed to load MCP tools: {e}")
+            logger.warning(f"Failed to load MCP tools: {e}")
             return []

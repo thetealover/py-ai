@@ -119,16 +119,14 @@ Then run in separate terminals:
 
 Once both servers are running:
 
-1. Open your browser and navigate to `http://localhost:8000`
-2. You'll see the chat interface where you can interact with the AI assistant
-3. The assistant has access to:
-    - Weather information (through MCP tools)
-    - Web search capabilities (through Tavily)
-    - General knowledge from the LLM
+The assistant has access to:
+
+- Weather information (through MCP tools)
+- Web search capabilities (through Tavily)
+- General knowledge from the LLM
 
 ## API Endpoints
 
-- `GET /` - Main chat interface (web UI)
 - `POST /chat/stream` - Stream chat responses (SSE)
 - `GET /mcp?city={city}` - Test MCP weather tool directly
 - `GET /health` - Health check endpoint
@@ -195,16 +193,6 @@ All configuration is managed through environment variables and the `src/config/s
 - `TAVILY_API_KEY`: Tavily API key for search functionality
 - `WEATHER_API_KEY`: Weather API key for weather data
 
-### Optional Environment Variables
-
-- `API_PORT`: API server port (default: 8000)
-- `API_HOST`: API server host (default: 0.0.0.0)
-- `MCP_WS_PORT`: MCP server port (default: 8001)
-- `LLM_MODEL`: LLM model to use (default: gemini-2.5-flash)
-- `LLM_TEMPERATURE`: LLM temperature setting (default: 0.0)
-- `ENABLE_MCP_TOOLS`: Enable/disable MCP tools (default: true)
-- `ENABLE_SEARCH_TOOLS`: Enable/disable search tools (default: true)
-
 ## Troubleshooting
 
 ### Common Issues
@@ -234,31 +222,4 @@ Build and run:
 ```bash
 docker build -t py-ai .
 docker run -p 8000:8000 -p 8001:8001 --env-file .env py-ai
-```
-
-## Project Structure
-
-```
-py-ai/
-├── src/
-│   ├── config/          # Configuration management
-│   │   └── settings.py  # Pydantic settings
-│   ├── ai/              # AI agents and tools
-│   │   ├── agents/      # Agent implementations
-│   │   ├── tools/       # Tool providers
-│   │   └── prompts.py   # System prompts
-│   ├── mcp/             # MCP server implementation
-│   │   ├── models/      # Pydantic models
-│   │   ├── services/    # Business logic
-│   │   └── server.py    # MCP server
-│   ├── api/             # FastAPI application
-│   │   ├── routes/      # API endpoints
-│   │   ├── services/    # API services
-│   │   └── app.py       # FastAPI app
-│   └── templates/       # HTML templates
-├── tests/               # Test suite
-├── main.py              # Main entry point
-├── .env                 # Environment variables
-├── pyproject.toml       # Poetry configuration
-└── README.md            # This file
 ```

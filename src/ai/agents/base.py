@@ -20,5 +20,7 @@ class BaseAgent(ABC):
     def runnable(self) -> Runnable:
         """Get the compiled agent runnable."""
         if self._runnable is None:
-            raise RuntimeError("Agent not built. Call build() first.")
+            raise RuntimeError(
+                "Agent is not compiled. Call build() or build_with_checkpointer() first."
+            )
         return self._runnable

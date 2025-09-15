@@ -1,12 +1,9 @@
-#!/usr/bin/env python3
-"""Main entry point for running the application."""
-
+import subprocess
 import sys
 from pathlib import Path
 
 import uvicorn
 
-# Add src to Python path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from src.config.settings import settings
@@ -28,10 +25,25 @@ def run_mcp_server():
     run_mcp_server()
 
 
+def run_streamlit_app():
+    """Run the Streamlit UI application."""
+    streamlit_path = Path(__file__).parent / "src" / "streamlit_app" / "app.py"
+    command = [
+        "streamlit",
+        "run",
+        str(streamlit_path),
+        "--server.port",
+        "8501",
+        "--server.address",
+        "localhost"
+    ]
+    subprocess.run(command)
+
+
 def main():
     """Main entry point with command selection."""
     if len(sys.argv) < 2:
-        print("Usage: python main.py [api|mcp]")
+        print("Usage: python main.py [api|mcp|streamlit]")
         sys.exit(1)
 
     command = sys.argv[1]
@@ -40,9 +52,11 @@ def main():
         run_api_server()
     elif command == "mcp":
         run_mcp_server()
+    elif command == "streamlit":
+        run_streamlit_app()
     else:
         print(f"Unknown command: {command}")
-        print("Usage: python main.py [api|mcp]")
+        print("Usage: python main.py [api|mcp|streamlit]")
         sys.exit(1)
 
 

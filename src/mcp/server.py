@@ -1,9 +1,11 @@
+import logging
 from fastmcp import FastMCP
 
 from src.config.settings import settings
 from src.mcp.models.weather import Weather
 from src.mcp.services.weather_service import WeatherService
 
+logger = logging.getLogger(__name__)
 mcp = FastMCP(name="py_api_mcp")
 weather_service = WeatherService()
 
@@ -17,7 +19,7 @@ async def get_weather(city: str) -> Weather:
     try:
         return await weather_service.get_current_weather(city)
     except Exception as e:
-        print(f"Error getting weather data: {str(e)}")
+        logger.error(f"Error getting weather data: {str(e)}")
         raise
 
 

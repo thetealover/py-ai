@@ -25,7 +25,6 @@ async def call_mcp(city: Optional[str] = None):
             status_code=503
         )
 
-    # Find the weather tool
     weather_tool = next(
         (tool for tool in tools if tool.name == "get_current_weather"),
         None
