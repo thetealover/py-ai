@@ -16,10 +16,7 @@ class ChatService:
         self.agent = agent
 
     async def stream_chat(
-            self,
-            user_input: str,
-            session_id: str,
-            background_tasks: BackgroundTasks
+        self, user_input: str, session_id: str, background_tasks: BackgroundTasks
     ) -> AsyncGenerator[str, None]:
         """
         Stream chat responses and queue a background task to generate a title.
@@ -28,13 +25,15 @@ class ChatService:
         config = RunnableConfig(configurable={"thread_id": session_id})
 
         async for event in self.agent.runnable.astream_events(
-                inputs, config=config, version="v1"
+            inputs, config=config, version="v1"
         ):
             kind = event["event"]
             if kind == "on_tool_start":
-                tool_input = event['data']['input']
+                tool_input = event["data"]["input"]
                 tool_input_str = json.dumps(tool_input)
-                yield self._format_sse("tool_start", f"Using tool with input: `{tool_input_str}`...")
+                yield self._format_sse(
+                    "tool_start", f"Using tool with input: `{tool_input_str}`..."
+                )
             elif kind == "on_chat_model_stream":
                 chunk = event["data"]["chunk"]
                 if chunk.content:

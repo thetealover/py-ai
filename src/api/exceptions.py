@@ -44,8 +44,7 @@ async def generic_exception_handler(request: Request, exc: Exception):
     to the client to avoid leaking implementation details.
     """
     logger.error(
-        f"Unhandled exception for request: {request.method} {request.url}",
-        exc_info=exc
+        f"Unhandled exception for request: {request.method} {request.url}", exc_info=exc
     )
 
     return JSONResponse(

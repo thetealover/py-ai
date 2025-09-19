@@ -15,11 +15,7 @@ class WeatherService:
         """Fetch current weather for a city."""
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{self.base_url}/current.json",
-                params={
-                    "q": city,
-                    "key": self.api_key
-                }
+                f"{self.base_url}/current.json", params={"q": city, "key": self.api_key}
             )
             response.raise_for_status()
             data = response.json()

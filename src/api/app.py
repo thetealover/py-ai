@@ -1,4 +1,5 @@
 import asyncio
+import importlib.metadata
 import logging
 from contextlib import asynccontextmanager
 
@@ -10,6 +11,7 @@ from src.ai.agent_manager import AgentManager
 from src.api.exceptions import register_exception_handlers
 from src.api.migrations import run_migrations_sync
 from src.api.routes import chat, mcp
+from src.config.config_utils import get_project_version
 from src.config.logging_config import setup_logging
 from src.config.settings import settings
 
@@ -55,8 +57,8 @@ def create_app() -> FastAPI:
     api = FastAPI(
         title="AI Chat API",
         description="AI-powered chat API with MCP integration",
-        version="1.1.0",
-        lifespan=lifespan
+        version=get_project_version(),
+        lifespan=lifespan,
     )
 
     register_exception_handlers(api)
@@ -79,7 +81,7 @@ def create_app() -> FastAPI:
         return {
             "status": "healthy",
             "agent_initialized": agent is not None,
-            "persistence_enabled": persistence_enabled
+            "persistence_enabled": persistence_enabled,
         }
 
     return api

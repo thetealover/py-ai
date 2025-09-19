@@ -6,10 +6,7 @@ class Settings(BaseSettings):
     """Application configuration using Pydantic BaseSettings."""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=False,
-        extra="ignore"
+        env_file=".env", env_file_encoding="utf-8", case_sensitive=False, extra="ignore"
     )
 
     # --- Database Connection Components (Single Source of Truth) ---
@@ -47,7 +44,9 @@ class Settings(BaseSettings):
     weather_api_key: str = Field(..., alias="WEATHER_API_KEY")
 
     # --- API URLs ---
-    weather_api_base_url: str = Field("https://api.weatherapi.com/v1", alias="WEATHER_API_BASE_URL")
+    weather_api_base_url: str = Field(
+        "https://api.weatherapi.com/v1", alias="WEATHER_API_BASE_URL"
+    )
     mcp_ws_url: str = Field("http://localhost:8001/mcp", alias="MCP_WS_URL")
 
     # --- Server Configuration ---
@@ -60,8 +59,12 @@ class Settings(BaseSettings):
     llm_model: str = Field("gemini-2.5-flash", alias="LLM_MODEL")
     llm_temperature: float = Field(0.0, alias="LLM_TEMPERATURE")
 
-    title_determinator_llm_model: str = Field("gemini-2.5-flash", alias="TITLE_DETERMINATOR_LLM_MODEL")
-    title_determinator_llm_temperature: float = Field(0.0, alias="TITLE_DETERMINATOR_LLM_TEMPERATURE")
+    title_determinator_llm_model: str = Field(
+        "gemini-2.5-flash", alias="TITLE_DETERMINATOR_LLM_MODEL"
+    )
+    title_determinator_llm_temperature: float = Field(
+        0.0, alias="TITLE_DETERMINATOR_LLM_TEMPERATURE"
+    )
 
     # --- Feature Flags ---
     enable_mcp_tools: bool = Field(True, alias="ENABLE_MCP_TOOLS")

@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 class AgentState(TypedDict):
     """State definition for the chat agent."""
+
     messages: Annotated[Sequence[BaseMessage], operator.add]
 
 
@@ -36,12 +37,14 @@ class ChatAgent(BaseAgent):
         logger.info("Building agent without a checkpointer (no persistence).")
         return await self.build_with_checkpointer(checkpointer=None)
 
-    async def build_with_checkpointer(self, checkpointer: Optional[BaseCheckpointSaver] = None):
+    async def build_with_checkpointer(
+        self, checkpointer: Optional[BaseCheckpointSaver] = None
+    ):
         """Build the LangGraph agent with an optional checkpointer for persistence."""
         self.model = ChatGoogleGenerativeAI(
             model=settings.llm_model,
             temperature=settings.llm_temperature,
-            google_api_key=settings.google_api_key
+            google_api_key=settings.google_api_key,
         )
 
         if self.tools:
@@ -80,7 +83,9 @@ class ChatAgent(BaseAgent):
         messages = state["messages"]
 
         if not messages or not isinstance(messages[0], SystemMessage):
-            messages_with_prompt = [SystemMessage(content=self.system_prompt)] + messages
+            messages_with_prompt = [
+                SystemMessage(content=self.system_prompt)
+            ] + messages
         else:
             messages_with_prompt = messages
 
@@ -92,7 +97,9 @@ class ChatAgent(BaseAgent):
         last_message = state["messages"][-1]
         action = last_message.tool_calls[0]
         tool_name = action["name"]
-        tool_to_use = next((tool for tool in self.tools if tool.name == tool_name), None)
+        tool_to_use = next(
+            (tool for tool in self.tools if tool.name == tool_name), None
+        )
 
         if tool_to_use is None:
             response = f"Tool '{tool_name}' not found"

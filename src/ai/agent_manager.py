@@ -40,7 +40,9 @@ class AgentManager:
 
             self.agent = ChatAgent(tools=tools)
             await self.agent.build_with_checkpointer(self.checkpointer)
-            logger.info("Agent Manager: Persistent agent created and compiled successfully.")
+            logger.info(
+                "Agent Manager: Persistent agent created and compiled successfully."
+            )
 
         except Exception as e:
             logger.critical(f"Agent Manager failed to start: {e}")
@@ -75,5 +77,7 @@ class AgentManager:
     def get_agent(self) -> ChatAgent:
         """Returns the managed agent instance."""
         if not self.agent:
-            raise RuntimeError("Agent not initialized. The AgentManager must be started first.")
+            raise RuntimeError(
+                "Agent not initialized. The AgentManager must be started first."
+            )
         return self.agent

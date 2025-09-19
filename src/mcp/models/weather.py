@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 
 class Location(BaseModel):
     """Location information model."""
+
     name: str
     region: str
     country: str
@@ -16,6 +17,7 @@ class Location(BaseModel):
 
 class Condition(BaseModel):
     """Weather condition model."""
+
     text: str
     icon: str
     code: int
@@ -23,6 +25,7 @@ class Condition(BaseModel):
 
 class CurrentWeather(BaseModel):
     """Current weather information model."""
+
     condition: Optional[Condition] = None
     last_updated_epoch: Optional[int] = None
     last_updated: Optional[str] = None
@@ -38,5 +41,6 @@ class CurrentWeather(BaseModel):
 
 class Weather(BaseModel):
     """Complete weather response model."""
+
     location: Optional[Location] = None
     current: Optional[CurrentWeather] = None

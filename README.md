@@ -21,7 +21,6 @@ The project follows a clean architecture pattern with clear separation of concer
 - `src/ai/`: AI agents and tools
 - `src/mcp/`: MCP server implementation
 - `src/api/`: FastAPI application and routes
-- `src/templates/`: HTML templates
 
 ## Prerequisites
 
@@ -52,6 +51,20 @@ The project follows a clean architecture pattern with clear separation of concer
     - Get a Tavily API key from [Tavily](https://tavily.com/)
     - Get a Weather API key from [WeatherAPI](https://www.weatherapi.com/)
 
+## Formatting the code base
+
+A code formatter is included in the project. Run the following command to format the code base:
+
+```bash
+poetry run black .
+```
+
+To check for formatting issues without making changes, run:
+
+```bash
+poetry run black --check .
+```
+
 ## Running the Application
 
 You need to run both the MCP server and the API server for full functionality.
@@ -60,59 +73,36 @@ You need to run both the MCP server and the API server for full functionality.
 
 In separate terminal windows:
 
-**Terminal 1 - Run the MCP server:**
+**Terminal 1—Run the MCP server:**
 
 ```bash
 poetry run python main.py mcp
 ```
 
-**Terminal 2 - Run the API server:**
+**Terminal 2—Run the API server:**
 
 ```bash
 poetry run python main.py api
-```
+``` 
 
 ### Option 2: Run directly with modules
 
-**Terminal 1 - Run the MCP server:**
+**Terminal 1—Run the MCP server:**
 
 ```bash
 poetry run python -m src.mcp.server
 ```
 
-**Terminal 2 - Run the API server:**
+**Terminal 2—Run the API server:**
 
 ```bash
-poetry run uvicorn src.api.app:app --reload --host 0.0.0.0 --port 8000
+poetry run uvicorn src.api.app:app --reload --host localhost --port 8000
 ```
 
-### Option 3: Using shell scripts (create these for convenience)
-
-Create `run-mcp.sh`:
+**Terminal 3—Run the Streamlit UI app**
 
 ```bash
-#!/bin/bash
-poetry run python main.py mcp
-```
-
-Create `run-api.sh`:
-
-```bash
-#!/bin/bash
-poetry run python main.py api
-```
-
-Make them executable:
-
-```bash
-chmod +x run-mcp.sh run-api.sh
-```
-
-Then run in separate terminals:
-
-```bash
-./run-mcp.sh
-./run-api.sh
+poetry run python main.py streamlit
 ```
 
 ## Accessing the Application
@@ -130,6 +120,8 @@ The assistant has access to:
 - `POST /chat/stream` - Stream chat responses (SSE)
 - `GET /mcp?city={city}` - Test MCP weather tool directly
 - `GET /health` - Health check endpoint
+- `GET /docs` - Swagger UI documentation
+- `GET /redoc` - ReDoc documentation
 
 ## Development
 

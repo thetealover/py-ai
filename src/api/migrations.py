@@ -13,10 +13,10 @@ def run_migrations_sync(sync_pool: ConnectionPool):
     logger.info("Running database migrations...")
     alembic_cfg = Config("alembic.ini")
 
-    alembic_cfg.attributes['connection'] = sync_pool.getconn()
+    alembic_cfg.attributes["connection"] = sync_pool.getconn()
 
     try:
         command.upgrade(alembic_cfg, "head")
         logger.info("Database migrations complete.")
     finally:
-        sync_pool.putconn(alembic_cfg.attributes['connection'])
+        sync_pool.putconn(alembic_cfg.attributes["connection"])

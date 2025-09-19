@@ -11,8 +11,7 @@ weather_service = WeatherService()
 
 
 @mcp.tool(
-    name="get_current_weather",
-    description="Get the current weather in a given city"
+    name="get_current_weather", description="Get the current weather in a given city"
 )
 async def get_weather(city: str) -> Weather:
     """Get current weather for a city."""

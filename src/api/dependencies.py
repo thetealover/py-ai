@@ -9,9 +9,7 @@ def get_agent_manager(request: Request) -> AgentManager:
     return request.app.state.agent_manager
 
 
-def get_agent(
-        manager: AgentManager = Depends(get_agent_manager)
-) -> ChatAgent:
+def get_agent(manager: AgentManager = Depends(get_agent_manager)) -> ChatAgent:
     """
     Dependency to get the single, persistent agent instance
     from the agent manager.
@@ -19,8 +17,6 @@ def get_agent(
     return manager.get_agent()
 
 
-def get_chat_service(
-        agent: ChatAgent = Depends(get_agent)
-) -> ChatService:
+def get_chat_service(agent: ChatAgent = Depends(get_agent)) -> ChatService:
     """Dependency to get the chat service instance."""
     return ChatService(agent)

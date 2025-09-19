@@ -15,24 +15,23 @@ logger = logging.getLogger(__name__)
 
 class ChatInput(BaseModel):
     """Chat input model."""
+
     message: str
     session_id: str
 
 
 @router.post("/stream")
 async def stream_chat(
-        chat_input: ChatInput,
-        background_tasks: BackgroundTasks,
-        chat_service: ChatService = Depends(get_chat_service)
+    chat_input: ChatInput,
+    background_tasks: BackgroundTasks,
+    chat_service: ChatService = Depends(get_chat_service),
 ):
     """Stream chat responses and trigger title generation in the background."""
     return StreamingResponse(
         chat_service.stream_chat(
-            chat_input.message,
-            chat_input.session_id,
-            background_tasks
+            chat_input.message, chat_input.session_id, background_tasks
         ),
-        media_type="text/event-stream"
+        media_type="text/event-stream",
     )
 
 
@@ -62,4 +61,6 @@ async def get_user_conversations(username: str):
         return JSONResponse(content=conversations)
     except Exception as e:
         logger.error(f"API error fetching conversations for user '{username}': {e}")
-        raise HTTPException(status_code=500, detail="Could not retrieve user conversations.")
+        raise HTTPException(
+            status_code=500, detail="Could not retrieve user conversations."
+        )

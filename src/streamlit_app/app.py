@@ -56,7 +56,9 @@ def start_new_chat():
     new_id = f"{st.session_state.username}-{uuid.uuid4()}"
     st.session_state.current_conversation_id = new_id
     st.session_state.messages = []
-    st.session_state.user_conversations.insert(0, {"conversation_id": new_id, "title": "New Chat"})
+    st.session_state.user_conversations.insert(
+        0, {"conversation_id": new_id, "title": "New Chat"}
+    )
     st.rerun()
 
 
@@ -105,9 +107,9 @@ with st.sidebar:
         st.write("No chats yet.")
     else:
         for conv in st.session_state.user_conversations:
-            title = conv['title'][:30] + ("..." if len(conv['title']) > 30 else "")
-            if st.button(title, key=conv['conversation_id'], use_container_width=True):
-                select_chat(conv['conversation_id'])
+            title = conv["title"][:30] + ("..." if len(conv["title"]) > 30 else "")
+            if st.button(title, key=conv["conversation_id"], use_container_width=True):
+                select_chat(conv["conversation_id"])
 
     st.divider()
     if st.button("Logout", use_container_width=True):
@@ -133,9 +135,12 @@ if user_query:
 
         try:
             with requests.post(
-                    STREAM_API_URL,
-                    json={"message": user_query, "session_id": st.session_state.current_conversation_id},
-                    stream=True,
+                STREAM_API_URL,
+                json={
+                    "message": user_query,
+                    "session_id": st.session_state.current_conversation_id,
+                },
+                stream=True,
             ) as response:
                 response.raise_for_status()
                 for chunk in response.iter_content(chunk_size=None):
@@ -145,17 +150,21 @@ if user_query:
                             if line.startswith("data:"):
                                 import json
 
-                                data_str = line[len("data:"):].strip()
+                                data_str = line[len("data:") :].strip()
                                 if data_str:
                                     try:
                                         data = json.loads(data_str)
                                         if data["type"] == "chunk":
                                             full_response += data["data"]
-                                            ai_response_placeholder.markdown(full_response + "▌")
+                                            ai_response_placeholder.markdown(
+                                                full_response + "▌"
+                                            )
                                         elif data["type"] == "tool_start":
-                                            st.info(data['data'], icon="🛠️")
+                                            st.info(data["data"], icon="🛠️")
                                     except json.JSONDecodeError:
-                                        logger.warning(f"Failed to decode JSON: {data_str}")
+                                        logger.warning(
+                                            f"Failed to decode JSON: {data_str}"
+                                        )
 
                 ai_response_placeholder.markdown(full_response)
 

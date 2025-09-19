@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 title_generation_model = ChatGoogleGenerativeAI(
     model=settings.title_determinator_llm_model,
     temperature=settings.title_determinator_llm_temperature,
-    google_api_key=settings.google_api_key
+    google_api_key=settings.google_api_key,
 )
 
 
@@ -28,7 +28,8 @@ async def generate_and_save_title(thread_id: str, history: List[BaseMessage]):
 
         formatted_history = "\n".join(
             f"{'User' if isinstance(msg, HumanMessage) else 'AI'}: {msg.content}"
-            for msg in history if isinstance(msg, (HumanMessage, AIMessage))
+            for msg in history
+            if isinstance(msg, (HumanMessage, AIMessage))
         )
 
         if not formatted_history:
@@ -40,7 +41,9 @@ async def generate_and_save_title(thread_id: str, history: List[BaseMessage]):
 
         if title:
             await save_conversation_title(thread_id, title)
-            logger.info(f"Generated and saved title for thread '{thread_id}': '{title}'")
+            logger.info(
+                f"Generated and saved title for thread '{thread_id}': '{title}'"
+            )
 
     except Exception as e:
         logger.error(f"Error generating title for thread {thread_id}: {e}")

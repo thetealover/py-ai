@@ -32,7 +32,9 @@ async def get_db_connection():
 
 async def check_conversation_title_exists(thread_id: str) -> bool:
     """Checks if a title already exists for a given thread_id."""
-    query = "select 1 from public.conversation_metadata where thread_id = %(thread_id)s;"
+    query = (
+        "select 1 from public.conversation_metadata where thread_id = %(thread_id)s;"
+    )
     async with get_db_connection() as conn:
         async with conn.cursor() as cur:
             await cur.execute(query, {"thread_id": thread_id})
@@ -91,7 +93,9 @@ async def get_conversations_for_user(username: str) -> List[Dict[str, Any]]:
                 for row in results:
                     conversations.append({"conversation_id": row[0], "title": row[1]})
     except Exception as e:
-        logger.error(f"Database error in get_conversations_for_user for '{username}': {e}")
+        logger.error(
+            f"Database error in get_conversations_for_user for '{username}': {e}"
+        )
         raise
 
     return conversations

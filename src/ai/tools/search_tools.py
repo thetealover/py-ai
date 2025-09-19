@@ -15,7 +15,6 @@ class SearchToolProvider(ToolProvider):
             return []
 
         tavily_tool = TavilySearch(
-            max_results=2,
-            tavily_api_key=settings.tavily_api_key
+            max_results=2, tavily_api_key=settings.tavily_api_key
         )
         return [tavily_tool]

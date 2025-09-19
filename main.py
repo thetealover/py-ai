@@ -12,16 +12,14 @@ from src.config.settings import settings
 def run_api_server():
     """Run the API server."""
     uvicorn.run(
-        "src.api.app:app",
-        host=settings.api_host,
-        port=settings.api_port,
-        reload=True
+        "src.api.app:app", host=settings.api_host, port=settings.api_port, reload=True
     )
 
 
 def run_mcp_server():
     """Run the MCP server."""
     from src.mcp.server import run_mcp_server
+
     run_mcp_server()
 
 
@@ -35,7 +33,7 @@ def run_streamlit_app():
         "--server.port",
         "8501",
         "--server.address",
-        "localhost"
+        "localhost",
     ]
     subprocess.run(command)
 

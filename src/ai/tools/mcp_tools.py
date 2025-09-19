@@ -25,15 +25,12 @@ class MCPToolProvider(ToolProvider):
             self.client = MultiServerMCPClient(
                 connections={
                     settings.mcp_ws_server_name: StreamableHttpConnection(
-                        transport="streamable_http",
-                        url=settings.mcp_ws_url
+                        transport="streamable_http", url=settings.mcp_ws_url
                     )
                 }
             )
 
-            tools = await self.client.get_tools(
-                server_name=settings.mcp_ws_server_name
-            )
+            tools = await self.client.get_tools(server_name=settings.mcp_ws_server_name)
             return tools
         except Exception as e:
             logger.warning(f"Failed to load MCP tools: {e}")
